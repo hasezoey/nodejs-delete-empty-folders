@@ -3,11 +3,9 @@ a simpe-to-use Empty Folder Delete ([NodeJS](https://nodejs.org/))
 
 # Installing
 ## Installing (globally / -g)
-(when downloaded and unzipped) `npm install -g ./`
 (when git installed) `npm install -g hasezoey/nodejs-delete-empty-folders` 
 
 ## Installing (locally)
-(when downloaded and unzipped) `npm install ./`
 (when git installed) `npm install hasezoey/nodejs-delete-empty-folders` 
 
 # Usage
