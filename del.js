@@ -12,23 +12,23 @@ var nodel_arg = args.find((x) => {
         x == '-no-del'
 }); // will try to find something like "nodel"
 var nodel = nodel_arg != 'undefined' && nodel_arg != '' && nodel_arg != null;
-var deletet_count = 0;
+var delete_count = 0;
 //nodel = true; //SAFETY - for in-dev usage
 
 /**
  * @param {string} path
  * @param {function} cb
  */
-function dir(path, cb = () => { }) {
+function dir(path, cb = (dc) => { }) {
     console.log(`Currently at "${path.grey}"`);
     fs.stat(path, (err, stat) => {
         if (err && err.code == 'EPERM') {
             console.log('"' + path.grey + '"'+' Operation not permitted'.red);
-            cb();
+            cb(delete_count);
         }
         if (err) {
             console.error(err);
-            cb();
+            cb(delete_count);
             return;
         }
 
@@ -37,7 +37,7 @@ function dir(path, cb = () => { }) {
             fs.readdir(path, (err2, files) => {
                 if (err2) {
                     console.error(err2);
-                    cb();
+                    cb(delete_count);
                     return;
                 }
 
@@ -47,17 +47,17 @@ function dir(path, cb = () => { }) {
                         fs.rmdir(path, (err3) => {
                             if (err3) {
                                 console.error(err3);
-                                cb();
+                                cb(delete_count);
                                 return;
                             }
 
                             console.log(`Deletet "${path.grey}"`);
-                            deletet_count++;
-                            cb(); //call cb, and had deletet it
+                            delete_count++;
+                            cb(delete_count); //call cb, and had deletet it
                         });
                     } else {
                         console.log(`Found "${path.grey}", but not deleteing (no-del)`);
-                        cb(); //call cb, but not delete the dir
+                        cb(delete_count); //call cb, but not delete the dir
                     }
                 } else {
                     //search for another dir
@@ -79,7 +79,7 @@ function dir(path, cb = () => { }) {
                             fs.readdir(path, (err3, files2) => {
                                 if (err3) {
                                     console.error(err3);
-                                    cb();
+                                    cb(delete_count);
                                     return;
                                 }
 
@@ -99,7 +99,7 @@ function dir(path, cb = () => { }) {
             });
         } else {
             console.log(`"${path.grey}" is not a Directory`);
-            cb();
+            cb(delete_count);
         }
     });
 }
