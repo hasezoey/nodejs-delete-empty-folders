@@ -22,7 +22,7 @@ var deletet_count = 0;
 function dir(path, cb = () => { }) {
     console.log(`Currently at "${path.grey}"`);
     fs.stat(path, (err, stat) => {
-        if (err.code == 'EPERM') {
+        if (err && err.code == 'EPERM') {
             console.log('"' + path.grey + '"'+' Operation not permitted'.red);
             cb();
         }
