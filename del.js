@@ -22,9 +22,14 @@ var deletet_count = 0;
 function dir(path, cb = () => { }) {
     console.log(`Currently at "${path.grey}"`);
     fs.stat(path, (err, stat) => {
+        if (err.code == 'EPERM') {
+            console.log('"' + path.grey + '"'+' Operation not permitted'.red);
+            cb();
+        }
         if (err) {
             console.error(err);
             cb();
+            return;
         }
 
         if (stat.isDirectory()) {
@@ -33,6 +38,7 @@ function dir(path, cb = () => { }) {
                 if (err2) {
                     console.error(err2);
                     cb();
+                    return;
                 }
 
                 if (files.length == 0) {
@@ -42,6 +48,7 @@ function dir(path, cb = () => { }) {
                             if (err3) {
                                 console.error(err3);
                                 cb();
+                                return;
                             }
 
                             console.log(`Deletet "${path.grey}"`);
@@ -73,6 +80,7 @@ function dir(path, cb = () => { }) {
                                 if (err3) {
                                     console.error(err3);
                                     cb();
+                                    return;
                                 }
 
                                 if (files2.length == 0) {
