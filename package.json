@@ -1,0 +1,19 @@
+{
+  "name": "efd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./del.js",
+  "scripts": {
+	"install_g": "npm install ./ -g",
+	"install": "npm install ./"
+  },
+  "bin": {
+    "efd": "./cli.js"
+  },
+  "preferGlobal": true,
+  "author": "hasezoey",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.1.2"
+  }
+}
