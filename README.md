@@ -11,7 +11,7 @@ a simpe-to-use Empty Folder Delete ([NodeJS](https://nodejs.org/))
 # Usage
 ## Usage (globally)
 execute in a console `efd` to delete empty folders (and scans sub-Directoris)
-(when in dev or want to execute it but not delete directis `--no-delete`)
+(when in dev or want to execute it but not delete Directoris `--no-delete`)
 
 ## Usage (locally)
 ```js
