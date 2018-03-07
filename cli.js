@@ -1,8 +1,9 @@
 var dir = require('./del.js').dir;
+require('colors');
 console.log('Starting');
-dir(process.cwd(), (dc) => { // first start (directory where executet)
+var dc = { c: 0 };
+dir(process.cwd(), () => { // first start (directory where executet)
     var path = process.cwd().grey;
     console.log(`Fully scanned "${path}"`.green);
-    console.log(typeof dc);
-    console.log(`Deletet ${dc.toString().magenta} directoris`);
-});
+    console.log(`Deletet ${dc.c.toString().grey} directoris`);
+}, dc);
