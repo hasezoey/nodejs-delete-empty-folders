@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var dir = require('./del.js').dir;
 require('colors');
 console.log('Starting');
