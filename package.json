@@ -5,7 +5,6 @@
   "main": "./del.js",
   "scripts": {
 	"install_g": "npm install ./ -g",
-	"install": "npm install ./"
   },
   "bin": {
     "efd": "./cli.js"
