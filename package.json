@@ -4,7 +4,7 @@
   "description": "",
   "main": "./del.js",
   "scripts": {
-	"install_g": "npm install ./ -g",
+	"install_g": "npm install ./ -g"
   },
   "bin": {
     "efd": "./cli.js"
