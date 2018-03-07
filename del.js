@@ -12,23 +12,30 @@ var nodel_arg = args.find((x) => {
         x == '-no-del'
 }); // will try to find something like "nodel"
 var nodel = nodel_arg != 'undefined' && nodel_arg != '' && nodel_arg != null;
-var delete_count = 0;
 //nodel = true; //SAFETY - for in-dev usage
 
-/**
- * @param {string} path
- * @param {function} cb
+/** The Main Function of this module
+ * @param {string} path The Path where to Start
+ * @param {function} cb Callback - when finished
+ * @param {Object} dc Delete-Count
+ * @param {number} dc.c Delete-Count (inner object)
+ * @example
+ * var dc = { c: 0 }
+ * dir('C:/', cb = () => {}, dc);
+ * @example
+ * var dc = { c: 0 }
+ * dir('/', cb = () => {}, dc);
  */
-function dir(path, cb = (dc) => { }) {
+function dir(path, cb = () => { }, dc) {
     console.log(`Currently at "${path.grey}"`);
     fs.stat(path, (err, stat) => {
         if (err && err.code == 'EPERM') {
             console.log('"' + path.grey + '"'+' Operation not permitted'.red);
-            cb(delete_count);
+            cb();
         }
         if (err) {
             console.error(err);
-            cb(delete_count);
+            cb();
             return;
         }
 
@@ -37,7 +44,7 @@ function dir(path, cb = (dc) => { }) {
             fs.readdir(path, (err2, files) => {
                 if (err2) {
                     console.error(err2);
-                    cb(delete_count);
+                    cb();
                     return;
                 }
 
@@ -47,17 +54,17 @@ function dir(path, cb = (dc) => { }) {
                         fs.rmdir(path, (err3) => {
                             if (err3) {
                                 console.error(err3);
-                                cb(delete_count);
+                                cb();
                                 return;
                             }
 
                             console.log(`Deletet "${path.grey}"`);
-                            delete_count++;
-                            cb(delete_count); //call cb, and had deletet it
+                            dc.c++;
+                            cb(); //call cb, and had deletet it
                         });
                     } else {
                         console.log(`Found "${path.grey}", but not deleteing (no-del)`);
-                        cb(delete_count); //call cb, but not delete the dir
+                        cb(); //call cb, but not delete the dir
                     }
                 } else {
                     //search for another dir
@@ -70,45 +77,54 @@ function dir(path, cb = (dc) => { }) {
                         }
                         if (curr <= files.length - 1) {
                             console.log(`"${path.grey}" found "` + `/${files[curr]}`.grey + `"`);
-                            dir(`${path}/${files[curr]}`, () => {
+                            dir(`${path}/${files[curr]}`, (dc) => {
                                 curr++;
                                 cb2(true);
-                            });
+                            }, dc);
                         } else {
                             console.log(`"${path.grey}" finished`);
                             fs.readdir(path, (err3, files2) => {
                                 if (err3) {
                                     console.error(err3);
-                                    cb(delete_count);
+                                    cb();
                                     return;
                                 }
 
                                 if (files2.length == 0) {
                                     // re-do it here because it is empty
-                                    dir(`${path}`, () => { 
+                                    dir(`${path}`, (dc) => { 
                                         cb2(false);
-                                    });
+                                    }, dc);
                                 } else {
                                     // dont do it again - not empty
                                     cb2(false);
                                 }
                             });
                         }
-                    }, cb);
+                    }, () => {
+                        cb();
+                    });
                 }
             });
         } else {
             console.log(`"${path.grey}" is not a Directory`);
-            cb(delete_count);
+            cb();
         }
     });
 }
 
+// can anyone say how to document func's cb?
 /**
  * Calles "func" always until the callback is false
- * @param {function} func function that gets always called
- * @param {function} func[cb] the callback
+ * @param {(cb: (again: boolean)=>void)=>void} func function that gets always called
  * @param {function} end callback when ends
+ * @example
+ * sync_async_while((cb) => {
+ *      cb(true); //do it again
+ *      cb(false); //dont do it again
+ * }, () => {
+ *      console.log('Finished');
+ * });
  */
 function sync_async_while(func, end) {
     func((again) => {
