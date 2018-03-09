@@ -1,11 +1,9 @@
 {
   "name": "efd",
   "version": "1.0.0",
-  "description": "",
+  "description": "a simpe-to-use Empty Folder Delete ",
   "main": "./del.js",
-  "scripts": {
-	"install_g": "npm install ./ -g"
-  },
+  "scripts": { },
   "bin": {
     "efd": "./cli.js"
   },
