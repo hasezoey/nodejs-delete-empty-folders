@@ -6,7 +6,7 @@ a simpe-to-use Empty Folder Delete ([NodeJS](https://nodejs.org/))
 (when git installed) `npm install -g hasezoey/nodejs-delete-empty-folders` 
 
 for linux:
-    add `$HOME/.npm-packages/bin` to PATH for global use (only for current user)
+    add `$HOME/.npm-packages/bin` to PATH for global use (only for current user) (and to `~/.profile`)
 
 ## Installing (locally)
 (when git installed) `npm install hasezoey/nodejs-delete-empty-folders` 
