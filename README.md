@@ -1,4 +1,4 @@
-# NodeJS Delete empty Folders (efd)
+# NodeJS Delete empty Folders (efd) *[DISCONTINUED]*
 a simpe-to-use Empty Folder Delete ([NodeJS](https://nodejs.org/))
 
 # Installing
